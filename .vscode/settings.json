@@ -1,0 +1,20 @@
+{
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "source.fixAll.stylelint": "explicit",
+        "source.fixAll.markdownlint": "explicit"
+    },
+    "eslint.validate": [
+        "mdx",
+        "javascript",
+        "vue",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact"
+    ],
+    "css.validate": false,
+    "scss.validate": false,
+    "stylelint.validate": ["css", "less", "postcss", "scss", "sass", "vue"]
+}
