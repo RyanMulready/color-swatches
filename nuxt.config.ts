@@ -41,6 +41,7 @@ export default defineNuxtConfig({
                 file: 'en.json',
             },
         ],
+        defaultLocale: 'en',
         vueI18n: './i18n.config.ts',
     },
     primevue: {

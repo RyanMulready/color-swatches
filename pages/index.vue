@@ -2,7 +2,7 @@
     <div
         id="index-container"
         class="p-2">
-        <h1>{{ $t('helloworld') }}</h1>
+        <h1>{{ $t('colorswatches') }}</h1>
     </div>
 </template>
 
@@ -11,7 +11,7 @@ const { t: $t } = useI18n();
 
 useHead({
     titleTemplate: (titleChunk) => {
-        return `${titleChunk} - ${$t('helloworld')}`;
+        return `${titleChunk} - ${$t('colorswatches')}`;
     },
 });
 </script>
