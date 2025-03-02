@@ -1,3 +1,10 @@
 {
-    "colorswatches": "Color Swatches"
+    "colorswatches": "Color Swatches",
+    "rgb": "RGB",
+    "saturation": "Saturation",
+    "lightness": "Lightness",
+    "white": "White",
+    "black": "Black",
+    "unknownerror": "An unknown error occurred",
+    "colorserror": "An error occurred while fetching colors"
 }
