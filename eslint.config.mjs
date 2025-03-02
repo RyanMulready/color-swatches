@@ -8,6 +8,7 @@ export default createConfigForNuxt(
                 semi: true,
                 indent: 4,
                 braceStyle: '1tbs',
+                arrowParens: 'always',
             },
         },
     },
@@ -18,6 +19,14 @@ export default createConfigForNuxt(
                 localeDir: './i18n/locales/*.json',
                 messageSyntaxVersion: '^9.0.0',
             },
+        },
+        rules: {
+            '@intlify/vue-i18n/no-raw-text': [
+                'error',
+                {
+                    ignorePattern: '^[-#:()&%]+$',
+                },
+            ],
         },
     },
 )
