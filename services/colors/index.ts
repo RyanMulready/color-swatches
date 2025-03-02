@@ -19,7 +19,6 @@ export async function fetchColorBatch(
     saturation: number,
     lightness: number,
 ): Promise<Color[]> {
-    const { t: $t } = useI18n();
     const seenNames = new Set<string>();
     let fetchedColors: Color[] = [];
 
@@ -39,7 +38,7 @@ export async function fetchColorBatch(
             // Append new colors
             fetchedColors = [...fetchedColors, ...validColors];
         } catch (err) {
-            console.error($t('colorserror'), err);
+            console.error(err);
         }
     }
 

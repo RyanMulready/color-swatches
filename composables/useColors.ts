@@ -16,17 +16,12 @@ export function useColors(
     colorSaturation = DEFAULT_SATURATION,
     colorLightness = DEFAULT_LIGHTNESS,
 ) {
-    const { t: $t } = useI18n();
-
     const colors = useState<Color[]>('cachedColors', () => []);
     // TODO: Is caching better off in the service?
     const cache = useState<Record<string, Color[]>>('colorCache', () => ({}));
-
-    const error = ref<string | null>(null);
     const loading = ref(false);
 
     async function fetchColors(saturation: number, lightness: number): Promise<Color[]> {
-        error.value = null;
         const cacheKey = `${saturation}-${lightness}`;
 
         if (cache.value[cacheKey]) {
@@ -54,7 +49,7 @@ export function useColors(
 
             return fetchedColors;
         } catch (err) {
-            error.value = err instanceof Error ? err.message : $t('unknownerror');
+            console.log(err);
             return [];
         } finally {
             loading.value = false;
@@ -64,13 +59,12 @@ export function useColors(
     // Fetch default colors using SSR and hydrate on client
     const { data } = useAsyncData(
         `colors-${colorSaturation}-${colorLightness}`,
-        async () => {
-            return await fetchColors(colorSaturation, colorLightness);
-        },
+        async () => await fetchColors(colorSaturation, colorLightness),
         { lazy: true },
     );
 
     // Keep colors reactive across SSR and CSR
+    // Watches for changes to ssr data and updates the colors state
     watchEffect(() => {
         if (data.value) {
             cache.value[`${colorSaturation}-${colorLightness}`] = data.value;
@@ -81,7 +75,6 @@ export function useColors(
     return {
         colors,
         loading,
-        error,
         fetchColors,
     };
 }
