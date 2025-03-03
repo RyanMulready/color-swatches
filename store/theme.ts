@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { useStorage } from '@vueuse/core';
-import { onMounted } from 'vue';
 
 // Define scheme type
 type ColorScheme = 'light' | 'dark';
