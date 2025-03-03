@@ -20,7 +20,7 @@
         "@commitlint/cli": "^19.7.1",
         "@commitlint/config-conventional": "^19.7.1",
         "@intlify/eslint-plugin-vue-i18n": "^3.2.0",
-        "@nuxt/test-utils": "^3.17.0",
+        "@nuxt/test-utils": "^3.17.1",
         "@vue/test-utils": "^2.4.6",
         "eslint": "^9.21.0",
         "eslint-plugin-import": "^2.31.0",
