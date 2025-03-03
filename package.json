@@ -58,5 +58,10 @@
         "primeflex": "^4.0.0",
         "primeicons": "^7.0.0",
         "vue": "^3.5.13"
+    },
+    "overrides": {
+        "vue-i18n": "latest",
+        "@intlify/core-base": "latest",
+        "@intlify/message-compiler": "latest"
     }
 }

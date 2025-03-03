@@ -4,5 +4,8 @@
     "MD029": {
         "style": "ordered"
     },
-    "MD045": false
+    "MD045": false,
+    "MD007": {
+        "indent": 4
+    }
 }
