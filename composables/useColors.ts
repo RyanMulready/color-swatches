@@ -91,6 +91,7 @@ export function useColors(
         colors,
         loading,
         fetchColors,
+        // TODO: Hydration mismatch between SSR and CSR
         lastRequestTime,
         lastRequestCount,
         lastRequestCached,

@@ -64,42 +64,10 @@
                     <div
                         v-for="(data, index) in computedColors"
                         :key="data.hex || index"
-                        class="p-2 flex-shrink-0 color-swatch">
-                        <Card class="shadow-4">
-                            <template #content>
-                                <div class="flex flex-column align-items-center">
-                                    <template v-if="loading">
-                                        <Skeleton
-                                            width="100px"
-                                            height="100px"
-                                            class="mb-2" />
-                                        <Skeleton
-                                            width="100%"
-                                            height="1rem"
-                                            class="mb-1" />
-                                        <Skeleton
-                                            width="100%"
-                                            height="1rem" />
-                                    </template>
-                                    <template v-else>
-                                        <div
-                                            class="color-swatch__color border-round"
-                                            :style="{ backgroundColor: data.hex }" />
-                                        <div class="color-swatch__info w-full mt-2 text-center">
-                                            <p
-                                                :title="data.name"
-                                                class="text-sm font-semibold overflow-hidden text-overflow-ellipsis white-space-nowrap m-0">
-                                                {{ data.name }}
-                                            </p>
-                                            <p
-                                                class="text-sm text-gray-500 overflow-hidden text-overflow-ellipsis white-space-nowrap m-0">
-                                                {{ formatRGB(data.rgb) }}
-                                            </p>
-                                        </div>
-                                    </template>
-                                </div>
-                            </template>
-                        </Card>
+                        class="p-2 flex-shrink-0">
+                        <ColorSwatchCard
+                            :color="data"
+                            :loading="loading" />
                     </div>
                 </div>
             </template>
@@ -108,8 +76,8 @@
 </template>
 
 <script setup lang="ts">
+import ColorSwatchCard from '~/components/ColorSwatchCard.vue';
 import { useColors } from '~/composables/useColors';
-import type { RGB } from '~/services/colors/types';
 
 const { colors, fetchColors, lastRequestCount, lastRequestTime, lastRequestCached } = useColors();
 const loading = ref(false);
@@ -128,10 +96,6 @@ const debouncedFetchColors = useDebounceFn(async () => {
 
 const computedColors = computed(() => (loading.value ? Array(45).fill({}) : colors.value));
 
-const formatRGB = (rgb: RGB) => {
-    return `${$t('rgb')}(${rgb.r}, ${rgb.g}, ${rgb.b})`;
-};
-
 useHead({
     titleTemplate: (titleChunk) => `${titleChunk} - ${$t('colorswatches')}`,
 });
@@ -144,14 +108,5 @@ useHead({
 
 .stats-container {
     width: 175px;
-}
-
-.color-swatch {
-    width: 175px;
-
-    .color-swatch__color {
-        height: 100px;
-        width: 100px;
-    }
 }
 </style>
