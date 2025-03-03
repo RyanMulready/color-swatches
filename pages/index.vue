@@ -6,33 +6,52 @@
             {{ $t('colorswatches') }}
         </h1>
 
-        <div class="flex flex-column gap-4 mb-4 filter-container">
-            <div class="flex flex-column">
-                <label
-                    for="saturation-slider"
-                    class="font-semibold">
-                    {{ $t('saturation') }}: {{ saturation }}%
-                </label>
-                <Slider
-                    v-model="saturation"
-                    :disabled="loading"
-                    :min="0"
-                    :max="100"
-                    @slideend="debouncedFetchColors" />
-            </div>
+        <div class="flex flex-row gap-4 mb-4">
+            <div class="flex flex-column gap-4 filter-container pr-5">
+                <div class="flex flex-column">
+                    <label
+                        for="saturation-slider"
+                        class="font-semibold">
+                        {{ $t('saturation') }}: {{ saturation }}%
+                    </label>
+                    <Slider
+                        v-model="saturation"
+                        :disabled="loading"
+                        :min="0"
+                        :max="100"
+                        @slideend="debouncedFetchColors" />
+                </div>
 
-            <div class="flex flex-column">
-                <label
-                    for="lightness-slider"
-                    class="font-semibold">
-                    {{ $t('lightness') }}: {{ lightness }}%
-                </label>
-                <Slider
-                    v-model="lightness"
-                    :min="0"
-                    :max="100"
-                    :disabled="loading"
-                    @slideend="debouncedFetchColors" />
+                <div class="flex flex-column">
+                    <label
+                        for="lightness-slider"
+                        class="font-semibold">
+                        {{ $t('lightness') }}: {{ lightness }}%
+                    </label>
+                    <Slider
+                        v-model="lightness"
+                        :min="0"
+                        :max="100"
+                        :disabled="loading"
+                        @slideend="debouncedFetchColors" />
+                </div>
+            </div>
+            <div class="flex flex-column gap-2 stats-container">
+                <h2 class="m-0 mb-2">
+                    {{ $t('stats') }}
+                </h2>
+                <div class="flex flex-row justify-content-between">
+                    <span>{{ $t('requests') }}:</span>
+                    <span>{{ lastRequestCount }} ({{ lastRequestTime }})</span>
+                </div>
+                <div class="flex flex-row justify-content-between">
+                    <span>{{ $t('colors') }}:</span>
+                    <span>{{ colors.length }}</span>
+                </div>
+                <div class="flex flex-row justify-content-between">
+                    <span>{{ $t('cached') }}:</span>
+                    <span>{{ lastRequestCached }}</span>
+                </div>
             </div>
         </div>
 
@@ -92,7 +111,7 @@
 import { useColors } from '~/composables/useColors';
 import type { RGB } from '~/services/colors/types';
 
-const { colors, fetchColors } = useColors();
+const { colors, fetchColors, lastRequestCount, lastRequestTime, lastRequestCached } = useColors();
 const loading = ref(false);
 const { t: $t } = useI18n();
 
@@ -120,7 +139,11 @@ useHead({
 
 <style lang="scss" scoped>
 .filter-container {
-    width: 400px;
+    width: 300px;
+}
+
+.stats-container {
+    width: 175px;
 }
 
 .color-swatch {

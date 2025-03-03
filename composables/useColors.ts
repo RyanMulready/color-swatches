@@ -1,7 +1,7 @@
 import { ref, watchEffect } from 'vue';
 import { useAsyncData, useState } from '#app';
 import type { Color } from '~/services/colors/types';
-import { fetchColorBatch } from '~/services/colors';
+import { fetchUniqueColors } from '~/services/colors';
 import {
     DEFAULT_SATURATION,
     DEFAULT_LIGHTNESS,
@@ -20,27 +20,41 @@ export function useColors(
     // TODO: Is caching better off in the service?
     const cache = useState<Record<string, Color[]>>('colorCache', () => ({}));
     const loading = ref(false);
+    const lastRequestCached = ref(false);
+    const lastRequestTime = ref(0);
+    const lastRequestCount = ref(0);
 
     async function fetchColors(saturation: number, lightness: number): Promise<Color[]> {
         const cacheKey = `${saturation}-${lightness}`;
+        const startTime = performance.now();
+
+        lastRequestCount.value = 0;
+        lastRequestTime.value = 0;
+        lastRequestCached.value = false;
+        colors.value = [];
 
         if (cache.value[cacheKey]) {
             colors.value = cache.value[cacheKey];
+            lastRequestCached.value = true;
             return colors.value;
         }
 
         loading.value = true;
+
         try {
             let fetchedColors: Color[];
 
             // If lightness is 0 or 100, we can return black or white directly
             if (lightness === 0) {
                 fetchedColors = [COLOR_BLACK];
+                lastRequestCached.value = true;
             } else if (lightness === 100) {
                 fetchedColors = [COLOR_WHITE];
+                lastRequestCached.value = true;
             } else {
-                const hues = Array.from({ length: 361 }, (_, i) => i);
-                fetchedColors = await fetchColorBatch(hues, saturation, lightness);
+                const response = await fetchUniqueColors(saturation, lightness);
+                fetchedColors = response.colors;
+                lastRequestCount.value = response.requestCount;
             }
 
             // Store in cache and update reactive state
@@ -52,6 +66,7 @@ export function useColors(
             console.log(err);
             return [];
         } finally {
+            lastRequestTime.value = performance.now() - startTime;
             loading.value = false;
         }
     }
@@ -76,5 +91,8 @@ export function useColors(
         colors,
         loading,
         fetchColors,
+        lastRequestTime,
+        lastRequestCount,
+        lastRequestCached,
     };
 }

@@ -6,5 +6,10 @@
     "white": "White",
     "black": "Black",
     "unknownerror": "An unknown error occurred",
-    "colorserror": "An error occurred while fetching colors"
+    "colorserror": "An error occurred while fetching colors",
+    "stats": "Stats",
+    "requests": "Requests",
+    "time": "Time",
+    "colors": "Colors",
+    "cached": "Cached"
 }
