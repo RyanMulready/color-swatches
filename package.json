@@ -19,7 +19,7 @@
     "devDependencies": {
         "@commitlint/cli": "^19.7.1",
         "@commitlint/config-conventional": "^19.7.1",
-        "@intlify/eslint-plugin-vue-i18n": "^3.2.0",
+        "@intlify/eslint-plugin-vue-i18n": "^4.0.0",
         "@nuxt/test-utils": "^3.17.0",
         "@vue/test-utils": "^2.4.6",
         "eslint": "^9.21.0",
