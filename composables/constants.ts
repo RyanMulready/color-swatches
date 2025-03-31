@@ -1,4 +1,4 @@
-import type { Color } from '~/services/colors/types';
+import type { Color } from '~/server/api/colors/types';
 
 export const DEFAULT_SATURATION = 100;
 export const DEFAULT_LIGHTNESS = 50;

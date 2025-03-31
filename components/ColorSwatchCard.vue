@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Color, RGB } from '~/services/colors/types';
+import type { Color, RGB } from '~/server/api/colors/types';
 
 defineProps({
     color: {

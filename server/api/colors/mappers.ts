@@ -11,3 +11,7 @@ export function mapColorApiResponseToColor(apiResponse: ColorApiResponse): Color
         hex: apiResponse.hex.value,
     };
 }
+
+export function mapHexApiResponseToColor(apiResponse: { colors: ColorApiResponse[] }): Color[] {
+    return apiResponse.colors.map(mapColorApiResponseToColor);
+}

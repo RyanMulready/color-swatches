@@ -1,6 +1,14 @@
 <template>
     <div class="card">
         <Menubar :model="items">
+            <template #item="{ item }">
+                <NuxtLink
+                    :to="item.to"
+                    class="no-underline">
+                    <i :class="item.icon" />
+                    {{ item.label }}
+                </NuxtLink>
+            </template>
             <template #end>
                 <div class="flex items-center gap-2">
                     <ColorSchemeToggle />
@@ -18,6 +26,7 @@ const items = ref([
     {
         label: 'Home',
         icon: 'pi pi-home',
+        to: '/',
     },
 ]);
 </script>

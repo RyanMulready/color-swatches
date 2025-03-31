@@ -8,6 +8,7 @@
 
         <div class="flex flex-row gap-4 mb-4">
             <div class="flex flex-column gap-4 filter-container pr-5">
+                <!-- SATURATION SLIDER -->
                 <div class="flex flex-column">
                     <label
                         for="saturation-slider"
@@ -22,6 +23,7 @@
                         @slideend="debouncedFetchColors" />
                 </div>
 
+                <!-- LIGHTNESS SLIDER -->
                 <div class="flex flex-column">
                     <label
                         for="lightness-slider"
@@ -36,6 +38,8 @@
                         @slideend="debouncedFetchColors" />
                 </div>
             </div>
+
+            <!-- STATS -->
             <div class="flex flex-column gap-2 stats-container">
                 <h2 class="m-0 mb-2">
                     {{ $t('stats') }}
@@ -55,31 +59,17 @@
             </div>
         </div>
 
-        <DataView
-            :value="computedColors"
-            layout="grid"
-            data-key="hex">
-            <template #grid>
-                <div class="flex flex-wrap gap-2 justify-center">
-                    <div
-                        v-for="(data, index) in computedColors"
-                        :key="data.hex || index"
-                        class="p-2 flex-shrink-0">
-                        <ColorSwatchCard
-                            :color="data"
-                            :loading="loading" />
-                    </div>
-                </div>
-            </template>
-        </DataView>
+        <ColorDataView
+            :colors="computedColors"
+            :loading="loading" />
     </div>
 </template>
 
 <script setup lang="ts">
-import ColorSwatchCard from '~/components/ColorSwatchCard.vue';
+import ColorDataView from '~/components/ColorDataView.vue';
 import { useColors } from '~/composables/useColors';
 
-const { colors, fetchColors, lastRequestCount, lastRequestTime, lastRequestCached } = useColors();
+const { colors, getColors, lastRequestCount, lastRequestTime, lastRequestCached } = useColors();
 const loading = ref(false);
 const { t: $t } = useI18n();
 
@@ -90,10 +80,11 @@ const lightness = ref<number>(50);
 // Debounced fetchColors to optimize performance
 const debouncedFetchColors = useDebounceFn(async () => {
     loading.value = true;
-    await fetchColors(saturation.value, lightness.value);
+    await getColors(saturation.value, lightness.value);
     loading.value = false;
 }, 500);
 
+// If loading, display placeholder swatches
 const computedColors = computed(() => (loading.value ? Array(45).fill({}) : colors.value));
 
 useHead({
